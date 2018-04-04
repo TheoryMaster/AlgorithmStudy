@@ -1,24 +1,20 @@
 Birthday Chocolate
 ===
-[링크](https://www.hackerrank.com/challenges/the-birthday-bar/problem)  
+[링크](https://www.hackerrank.com/challenges/compare-the-triplets/problem)  
 
 
 문제요약
 ---
-릴리는 론의 생일생일을 맞아 초콜릿 조각을 주려한다.  
-초콜릿은 n개의 조각으로 이루어져있고 각 조각 위에는 숫자가 적혀있다.  
-릴리는 조각위의 합이 d인 m개의 초콜릿 조각을 론에게 주려한다.  
-이 때 몇 개의 경우가 존재하는지 구하라.  
-
-ex) 5개의 조각에는 [1, 2, 1, 3, 2]가 적혀있고, m = 2, d = 3이다.  
-1. 첫 번째 조각에서 부터 두 조각의 숫자의 합은 3이다.  
-2. 두 번째 조각에서 부터 두 조각의 숫자의 합은 3이다.  
-따라서 2가지 경우가 존재한다.
+밥과 앨리스는 각각의 3가지 난이도의 문제를 풀어 점수를 갖는다.
+밥과 앨리스의 점수를 각각 비교하여 두 사람의 포인트를 비교한다.
 
 문제분석
 ---
-이 문제는 리스트에서 m개의 연속된 값의 합이 d와 같을 때 카운트를 1 증가시킨다.  
-최소한의 반복으로 결과를 도출
+함수의 매개변수로 6개의 점수가 들어오는데 이 점수를 각각 비교할 수 있도록 리스트에 저장,
+앨리스와 밥의 포인트는 각각 0점으로 시작
+반복문을 사용하여 두 사람의 점수를 비교하여 더 높은 점수의 사람에게 1 포인트
+두 사람의 점수가 같을 경우에는 아무에게도 점수를 주지 않는다.
+반복이 끝나면 점수를 반환하여 출력
 
 
 소스코드
@@ -26,22 +22,49 @@ ex) 5개의 조각에는 [1, 2, 1, 3, 2]가 적혀있고, m = 2, d = 3이다.
 ```python
 #!/bin/python3
 
+import os
 import sys
 
-def solve(n, s, d, m):
-    count = 0
-    for i in range(0, n - m + 1):
-        temp = 0
-        for j in range(0, m):
-            temp = temp + s[i+j]
-        if(temp == d):
-            count = count + 1
-    return count
+#
+# Complete the solve function below.
+#
+def solve(a0, a1, a2, b0, b1, b2):
+    #
+    score = [0, 0]
+    a = [a0, a1, a2]
+    b = [b0, b1, b2]
+    for i in range(0,3):
+        if(a[i] > b[i]):
+            score[0] += 1
+        elif(a[i] < b[i]):
+            score[1] += 1
 
-n = int(input().strip())
-s = list(map(int, input().strip().split(' ')))
-d, m = input().strip().split(' ')
-d, m = [int(d), int(m)]
-result = solve(n, s, d, m)
-print(result)
+    return score
+    #
+
+if __name__ == '__main__':
+    f = open(os.environ['OUTPUT_PATH'], 'w')
+
+    a0A1A2 = input().split()
+
+    a0 = int(a0A1A2[0])
+
+    a1 = int(a0A1A2[1])
+
+    a2 = int(a0A1A2[2])
+
+    b0B1B2 = input().split()
+
+    b0 = int(b0B1B2[0])
+
+    b1 = int(b0B1B2[1])
+
+    b2 = int(b0B1B2[2])
+
+    result = solve(a0, a1, a2, b0, b1, b2)
+
+    f.write(' '.join(map(str, result)))
+    f.write('\n')
+
+    f.close()
 ```
